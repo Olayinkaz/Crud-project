@@ -11,11 +11,26 @@ import User from "./models/User.js";
 dotenv.config();
 
 const app = express();
-const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.CLIENT_URL,
+  process.env.VERCEL_URL && `https://${process.env.VERCEL_URL}`,
+].filter(Boolean);
 
 app.use(
   cors({
-    origin: clientUrl,
+    origin(origin, callback) {
+      // Allow same-origin/server-to-server requests with no Origin header.
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
   })
 );
 app.use(express.json());
