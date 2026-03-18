@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Code pushed to **GitHub** .
+- Code pushed to **GitHub**.
 - **MongoDB Atlas** free cluster and connection string ([cloud.mongodb.com](https://cloud.mongodb.com)).
 - **Vercel** account ([vercel.com](https://vercel.com)).
 
@@ -25,9 +25,10 @@
 2. **Configure the project settings**  
    - **Root Directory**: leave as the repo root.
    - **Framework Preset**: `Other`.
-   - **Install Command**: `npm install`.
+   - **Install Command**: `npm install --prefix frontend && npm install --prefix backend`.
    - **Build Command**: `npm run build`.
    - **Output Directory**: `frontend/dist`.
+   - **Node.js Version**: `22.x` is recommended.
 
 3. **Add environment variables**  
    - In **Environment Variables**, add:
@@ -71,7 +72,7 @@
 
 ## Troubleshooting
 
-- **Build fails with `vite: command not found`**: Ensure Vercel is deploying the repo root with `npm install` so npm workspaces install both `frontend` and `backend`.
+- **Build fails with native `rolldown` or `MODULE_NOT_FOUND` errors**: Use `npm install --prefix frontend && npm install --prefix backend` in Vercel so each package installs from its own lockfile, and prefer Node `22.x`.
 - **CORS errors**: Ensure `CLIENT_URL` exactly matches your Vercel URL, including protocol and no trailing slash.
 - **401 / auth errors**: Ensure `JWT_SECRET` is set on Vercel and hasn’t changed after users logged in.
 - **API not reachable**: Check `https://your-app.vercel.app/api/health` and confirm `MONGO_URI` is set correctly.
